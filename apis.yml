@@ -11,8 +11,8 @@ apis:
       - url: ' https://api-sports.io/'
         type: Documentation
     description: >-
-      Take your project to the next level with our sports data set designed by
-      developers for developers 
+      Take your project to the next level with our sports data set designed by developers
+      for developers.
 name: API-Sports
 tags:
   - Sports
@@ -23,16 +23,10 @@ created: '2025-03-01'
 modified: '2025-03-01'
 position: Consumer
 description: >-
-  API-Sports is a leading provider of sports data and statistics solutions for
-  businesses and organizations in the sports industry. They offer a
-  comprehensive range of APIs that allow users to access real-time data on a
-  wide variety of sports, including football, basketball, baseball, and more.
-  Their platform provides developers with the tools they need to integrate this
-  data into their own applications, websites, and services, helping them to
-  create engaging and interactive sports experiences for their users. API-Sports
-  is dedicated to providing accurate, reliable, and up-to-date sports data to
-  help businesses and organizations unlock new opportunities and drive
-  innovation in the sports industry.
+  API-Sports is a leading provider of sports data and statistics solutions for businesses
+  and organizations in the sports industry. They offer a comprehensive range of APIs
+  that allow users to access real-time data on a wide variety of sports, including
+  football, basketball, baseball, and more.
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com

@@ -87,6 +87,8 @@ apis:
       - type: Documentation
         url: https://api-sports.io/documentation/tennis/v1
 common:
+  - type: GitHubOrganization
+    url: https://github.com/api-sports
   - type: Website
     url: https://api-sports.io/
   - type: Documentation

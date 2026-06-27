@@ -95,7 +95,7 @@ common:
     url: https://api-sports.io/documentation/
   - type: Pricing
     url: https://api-sports.io/#pricing
-  - type: SignUp
+  - type: Signup
     url: https://dashboard.api-sports.io/register
   - type: Login
     url: https://dashboard.api-sports.io/

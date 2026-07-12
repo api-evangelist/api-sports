@@ -87,6 +87,8 @@ apis:
       - type: Documentation
         url: https://api-sports.io/documentation/tennis/v1
 common:
+  - type: DomainSecurity
+    url: security/api-sports-domain-security.yml
   - type: GitHubOrganization
     url: https://github.com/api-sports
   - type: Website

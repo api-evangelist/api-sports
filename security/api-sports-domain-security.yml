@@ -1,14 +1,30 @@
-generated: '2026-07-11'
+generated: '2026-09-02'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: api-sports.io
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 29 13:56:51 2026 GMT
+  cert_expires: Oct 18 06:40:46 2026 GMT
+  hsts: null
+- host: www.api-football.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 12 19:25:09 2026 GMT
+  hsts: null
+- host: v3.football.api-sports.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 23 06:49:24 2026 GMT
   hsts: null
 domains:
 - domain: api-sports.io
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: api-football.com
   dnssec: false
   caa: []
   spf: true

@@ -1,0 +1,148 @@
+generated: '2026-09-02'
+method: probed
+source: >-
+  Live probes of the API-Sports hosts, robots.txt and /.well-known/* paths on
+  2026-09-02, plus the repository artifacts derived from them.
+specification: API Evangelist Conformance
+specificationVersion: '0.1'
+provider: API-Sports
+providerId: api-sports
+description: >-
+  Cross-cutting and domain-standard conformance assertions for API-Sports. Every entry
+  is evidence-backed; a false conforms value is as much a finding as a true one.
+entries:
+  - id: openapi
+    name: OpenAPI / Swagger description
+    conforms: false
+    evidence: >-
+      No OpenAPI at any probed location on any host. /openapi.json, /openapi.yaml,
+      /swagger.json, /v3/openapi.json, /api-docs, /redoc and
+      /.well-known/openapi.json were probed on v3.football.api-sports.io (403 API
+      envelope at every path), api-sports.io (404) and www.api-football.com (404).
+  - id: asyncapi
+    name: AsyncAPI event description
+    conforms: false
+    evidence: >-
+      No event, streaming or webhook surface is advertised anywhere in either sitemap
+      or in the widget bundle. The widgets poll on a data-refresh interval rather than
+      subscribing, which is consistent with a request/response-only product.
+  - id: graphql
+    name: GraphQL
+    conforms: false
+    evidence: No /graphql surface is referenced on any host.
+  - id: grpc
+    name: gRPC / Protobuf
+    conforms: false
+    evidence: No .proto, buf.build module or gRPC endpoint referenced on any surface.
+  - id: soap-wsdl
+    name: SOAP / WSDL
+    conforms: false
+    evidence: >-
+      No ?wsdl or enterprise SOAP surface. The product is a JSON-over-HTTPS read API
+      with no enterprise integration tier.
+  - id: rest
+    name: RESTful HTTP
+    conforms: partial
+    evidence: >-
+      Resource-oriented GET paths over HTTPS with JSON responses, but failures are
+      returned with HTTP 200 and an in-body errors object, which breaks the HTTP
+      status-code contract REST depends on. See errors/api-sports-problem-types.yml.
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      Responses are application/json with a proprietary
+      {get, parameters, errors, results, paging, response} envelope. No
+      application/problem+json, no type/title/status/detail members.
+  - id: rfc8594
+    name: RFC 8594 Sunset header
+    conforms: false
+    evidence: No Sunset or Deprecation header observed; no deprecation policy published.
+  - id: rfc9116
+    name: RFC 9116 security.txt
+    conforms: false
+    evidence: '/.well-known/security.txt returns 404 on api-sports.io and www.api-football.com.'
+  - id: rfc8615
+    name: RFC 8615 well-known URIs
+    conforms: false
+    evidence: >-
+      Every probed /.well-known/ path 404s on the web hosts and is refused by the API
+      edge. See well-known/api-sports-well-known.yml.
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: false
+    evidence: >-
+      Authorization: Bearer is rejected at the edge with HTTP 403;
+      /.well-known/oauth-authorization-server returns 404. Authentication is a static
+      API key header only.
+  - id: oidc
+    name: OpenID Connect
+    conforms: false
+    evidence: '/.well-known/openid-configuration returns 404 on both web hosts.'
+  - id: pagination
+    name: Pagination contract
+    conforms: true
+    evidence: >-
+      Every response carries paging.current and paging.total plus a results count in
+      the fixed envelope, observed live on v3.football.api-sports.io. Page-number
+      style, no cursor, no Link header.
+  - id: rate-limit-signalling
+    name: Rate-limit response headers
+    conforms: true
+    evidence: >-
+      Two documented header families — x-ratelimit-requests-limit /
+      x-ratelimit-requests-remaining (daily) and X-RateLimit-Limit /
+      X-RateLimit-Remaining (per minute). Not RFC 9238/draft-ietf-httpapi-ratelimit
+      naming, but a real published runtime signal. See rate-limits/.
+  - id: idempotency
+    name: Idempotency keys
+    conforms: na
+    evidence: >-
+      Read-only API with no write surface, so idempotency has nothing to protect. N/A
+      rather than absent.
+  - id: content-signals
+    name: Cloudflare Content Signals Policy
+    conforms: true
+    evidence: >-
+      Both public web hosts serve robots.txt (HTTP 200) carrying
+      'Content-Signal: search=yes, ai-input=yes, ai-train=yes' under
+      'User-agent: *' with 'Allow: /'. Saved verbatim at
+      well-known/api-sports-robots.txt and
+      well-known/api-sports-api-football-robots.txt.
+    caveat: >-
+      The declaration is contradicted by deployment: every HTML page on those same
+      hosts returns HTTP 403 from a Cloudflare bot challenge to automated clients.
+      The policy grants what the edge denies.
+  - id: mcp
+    name: Model Context Protocol server
+    conforms: false
+    evidence: No hosted or stdio MCP server is published. See mcp/api-sports-mcp.yml.
+  - id: a2a
+    name: A2A Agent Card
+    conforms: false
+    evidence: '/.well-known/agent-card.json and /.well-known/agent.json both 404 on every host.'
+domain_standard:
+  applicable: false
+  reward_only: true
+  finding: >-
+    The sports-data market has no adopted machine-readable interchange standard that
+    a live-scores API could declare in its contract. There is no sports-sector
+    analogue of SCIM, FHIR, OData, OpenRTB or ISO 20022 in general commercial use for
+    fixtures, standings and player statistics; every vendor in this space (API-Sports,
+    Sportradar, Sportmonks, SportsDataIO, Opta) ships a proprietary schema. Domain
+    standards are reward-only, so no conformance is invented to fill the slot and
+    API-Sports is not penalised for the absence.
+  probed_for:
+    - SportsML-G2 (IPTC) — no reference on any API-Sports surface
+    - OpenLiveScores / SportsCore — no such adopted standard found in commercial use
+    - schema.org SportsEvent JSON-LD — not emitted by the API or the widgets
+compliance:
+  certifications_published: []
+  trust_center: null
+  finding: >-
+    No SOC 2, ISO 27001, PCI, GDPR-programme or other certification claim was found on
+    any API-Sports surface, and probe-security-programs.py returned vdp=none
+    trust=none. No Compliance or TrustCenter pointer is emitted.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

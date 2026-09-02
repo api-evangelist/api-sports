@@ -4,110 +4,105 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: API-Sports
 providerId: api-sports
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+generated: '2026-09-02'
+modified: '2026-09-02'
+method: searched
+source: >-
+  https://www.api-football.com/news/post/how-ratelimit-works and the per-sport
+  documentation pages at https://api-sports.io/documentation/<sport>/<version>,
+  cross-checked against live response headers observed on
+  https://v3.football.api-sports.io/status on 2026-09-02.
+note: >-
+  Supersedes the 2026-05-04 bulk-sweep scaffold, whose header names
+  (X-RateLimit-Reset, RateLimit-Policy) and per-tier numbers were invented and are
+  not published by API-Sports. The header set below is the provider's own; the
+  per-tier NUMBERS are deliberately null — see limits_unread.
 tags:
-  - Baseball
-  - Basketball
-  - Cricket
-  - Football
-  - Ice Hockey
-  - MMA
-  - Real-Time
-  - Rugby
-  - Sports Data
-  - Statistics
-  - Tennis
   - Rate Limiting
   - Quotas
   - Throttling
-description: Machine-readable rate limit definitions for the API-Sports API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
+  - Sports Data
+description: >-
+  Rate-limit contract for the API-Sports family. API-Sports enforces two independent
+  windows simultaneously — a per-minute request rate and a per-day request quota —
+  and signals each with its own header family. Both are set by the subscription plan.
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  dailyLimit: x-ratelimit-requests-limit
+  dailyRemaining: x-ratelimit-requests-remaining
+  minuteLimit: X-RateLimit-Limit
+  minuteRemaining: X-RateLimit-Remaining
+  retryAfter: null
+  reset: null
+  policy: null
+header_semantics:
+  x-ratelimit-requests-limit: Number of requests allocated per DAY by the subscription.
+  x-ratelimit-requests-remaining: Requests remaining today under that daily allocation.
+  X-RateLimit-Limit: Maximum API calls per MINUTE.
+  X-RateLimit-Remaining: Calls remaining before the per-minute limit is reached.
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+  quotaExceeded: 200
+  note: >-
+    Quota exhaustion is reported in-band. Consistent with the provider's envelope
+    (see errors/api-sports-problem-types.yml), an exhausted daily quota returns the
+    normal envelope with a populated errors object rather than a 4xx status, so an
+    agent must read errors and the remaining-header, not the HTTP status, to know it
+    has run out. 429 is the transport-level throttle.
 limits:
-  - tier: free
-    name: Free Tier Default
+  - tier: null
+    name: Per-minute request rate
     scope: api-key
     metric: requests_per_minute
-    limit: 10
-    burst: 20
+    limit: null
+    burst: null
     timeFrame: minute
-    applies:
-      - API-Football
-      - API-Basketball
-      - API-Baseball
-      - API-Tennis
-  - tier: free
-    name: Free Tier Monthly Quota
+    signalled_by: [X-RateLimit-Limit, X-RateLimit-Remaining]
+    applies: all
+  - tier: null
+    name: Per-day request quota
     scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - API-Football
-      - API-Basketball
-      - API-Baseball
-      - API-Tennis
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - API-Football
-      - API-Basketball
-      - API-Baseball
-      - API-Tennis
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - API-Football
-      - API-Basketball
-      - API-Baseball
-      - API-Tennis
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - API-Football
-      - API-Basketball
-      - API-Baseball
-      - API-Tennis
+    metric: requests_per_day
+    limit: null
+    timeFrame: day
+    signalled_by: [x-ratelimit-requests-limit, x-ratelimit-requests-remaining]
+    applies: all
+limit_count: 0
+limits_unread:
+  reason: >-
+    The numeric per-tier ceilings are published only on
+    https://www.api-football.com/pricing, which answers HTTP 403 from a Cloudflare
+    bot-management challenge to every automated fetch (browser, Googlebot and plain
+    User-Agents alike) even though the site's own robots.txt is "Allow: /". No number
+    is recorded here rather than guessing one.
+  evidence:
+    - url: https://www.api-football.com/pricing
+      status: 403
+    - url: https://api-sports.io/documentation/football/v3
+      status: 403
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Media does not count
+    description: >-
+      The provider states that calls to logos and images do not count against the
+      daily quota. Only data endpoints are metered.
+    source: https://www.api-football.com/news/post/how-ratelimit-works
+  - name: Client-side spreading
+    description: >-
+      The provider's stated purpose for returning the headers is to let clients adapt
+      their logic and spread calls over time rather than discovering the ceiling by
+      hitting it.
+    source: https://www.api-football.com/news/post/how-ratelimit-works
+  - name: Quota preservation through caching
+    description: >-
+      The provider publishes guidance on caching responses and hosting media on a CDN
+      to reduce metered calls, while the API's own cache-control header is
+      "no-store, no-cache". Application-layer caching is the provider's intended
+      protection, not HTTP caching.
+    source: https://www.api-football.com/news/post/how-to-optimize-api-sports-calls-and-quota-usage
+  - name: Marketplace channel is metered separately
+    description: >-
+      Requests routed through RapidAPI (api-football-v1.p.rapidapi.com) are metered
+      and billed by RapidAPI under its own plan names, not by the API-Sports daily
+      allowance.
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com

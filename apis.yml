@@ -1,157 +1,366 @@
 aid: api-sports
 name: API-Sports
 description: >-
-  API-Sports is a leading provider of real-time sports data and statistics APIs
-  for businesses and developers. They offer 35+ APIs covering football, basketball,
-  baseball, tennis, rugby, volleyball, handball, ice hockey, MMA, and more, with
-  live scores, fixtures, standings, player statistics, and historical data
-  accessible via a unified API key authentication model.
+  API-Sports is a sports-data provider selling twelve independent read-only REST APIs
+  — one per sport — covering football, basketball, baseball, American football (NFL
+  and NCAA), NBA, Formula 1, ice hockey, handball, rugby, volleyball, MMA and
+  Australian rules football. Each API returns live scores, fixtures and schedules,
+  standings, team and player statistics, lineups, injuries, transfers, odds and
+  multi-season historical results, and each is versioned independently with its major
+  version carried in the hostname. A single API key works across every sport an
+  account subscribes to, authenticated with an x-apisports-key header, and the same
+  APIs are resold through the RapidAPI marketplace. API-Sports also ships a first-party
+  embeddable widget library that renders games and standings with no client code.
 type: Index
 deliveryModel:
   model: saas
   open_source: false
   commercial: true
-  callable_host: false
+  callable_host: true
   label: Hosted service · you call their endpoint
-  confidence: medium
+  confidence: high
   source:
+  - probe
   - pricing
-  generated: '2026-08-28'
-  method: derived
+  generated: '2026-09-02'
+  method: probed
 accessModel:
   pricing: freemium
-  onboarding: unknown
-  trial: false
-  try_now: false
-  public: false
+  onboarding: self-service
+  trial: true
+  try_now: true
+  public: true
   label: Freemium
   confidence: medium
   source:
   - plans
-  generated: '2026-07-22'
+  - demo
+  generated: '2026-09-02'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/api-sports.png
 tags:
-  - Baseball
-  - Basketball
-  - Cricket
+  - Sports Data
+  - Live Scores
+  - Statistics
   - Football
+  - Basketball
+  - Baseball
+  - American Football
   - Ice Hockey
+  - Formula 1
+  - Rugby
+  - Volleyball
+  - Handball
   - MMA
   - Real-Time
-  - Rugby
-  - Sports Data
-  - Statistics
-  - Tennis
+  - Fixtures
+  - Standings
+  - Odds
 url: >-
   https://raw.githubusercontent.com/api-evangelist/api-sports/refs/heads/main/apis.yml
 created: '2025-03-01'
-modified: '2026-04-19'
+modified: '2026-09-02'
 specificationVersion: '0.23'
 apis:
   - aid: api-sports:api-football
     name: API-Football
     description: >-
-      API-Football provides real-time and historical football (soccer) data
-      including fixtures, live scores, standings, player statistics, team
-      information, injuries, transfers, and predictions across 900+ leagues
-      and cups worldwide.
-    humanURL: https://api-sports.io/
+      API-Football provides real-time and historical football (soccer) data including
+      fixtures, live scores, standings, player and team statistics, lineups, events,
+      injuries, transfers, coaches, venues, odds and predictions across more than 1,000
+      leagues and cups worldwide. It is the flagship and most mature API in the family,
+      and the only one at major version 3.
+    humanURL: https://www.api-football.com/
+    baseURL: https://v3.football.api-sports.io/
     tags:
       - Football
-      - Live Scores
       - Soccer
+      - Live Scores
+      - Fixtures
+      - Standings
+      - Odds
       - Sports Data
       - Statistics
     properties:
       - type: Documentation
+        url: https://www.api-football.com/documentation-v3
+      - type: APIReference
         url: https://api-sports.io/documentation/football/v3
   - aid: api-sports:api-basketball
     name: API-Basketball
     description: >-
-      API-Basketball provides real-time and historical basketball data including
-      games, standings, player statistics, team information, and injuries across
-      NBA, EuroLeague, and 400+ leagues worldwide.
-    humanURL: https://api-sports.io/
+      API-Basketball provides real-time and historical basketball data including games,
+      standings, team and player statistics and season coverage across hundreds of
+      leagues and competitions worldwide. Distinct from API-NBA, which covers the NBA
+      specifically.
+    humanURL: https://api-sports.io/sports/basketball
+    baseURL: https://v1.basketball.api-sports.io/
     tags:
       - Basketball
-      - NBA
+      - Live Scores
+      - Standings
       - Sports Data
       - Statistics
     properties:
       - type: Documentation
         url: https://api-sports.io/documentation/basketball/v1
+  - aid: api-sports:api-nba
+    name: API-NBA
+    description: >-
+      API-NBA provides NBA-specific data including games, live scores, standings, team
+      and player statistics and season history. It is the only sport API in the family
+      at major version 2.
+    humanURL: https://api-sports.io/sports/nba
+    baseURL: https://v2.nba.api-sports.io/
+    tags:
+      - Basketball
+      - NBA
+      - Live Scores
+      - Sports Data
+      - Statistics
+    properties:
+      - type: Documentation
+        url: https://api-sports.io/documentation/nba/v2
   - aid: api-sports:api-baseball
     name: API-Baseball
     description: >-
-      API-Baseball provides real-time and historical baseball data including
-      games, standings, player statistics, and team information across MLB
-      and international leagues.
-    humanURL: https://api-sports.io/
+      API-Baseball provides real-time and historical baseball data including games,
+      standings, team and player statistics across MLB, NPB, KBO and other
+      international leagues.
+    humanURL: https://api-sports.io/sports/baseball
+    baseURL: https://v1.baseball.api-sports.io/
     tags:
       - Baseball
       - MLB
+      - Live Scores
       - Sports Data
       - Statistics
     properties:
       - type: Documentation
         url: https://api-sports.io/documentation/baseball/v1
-  - aid: api-sports:api-tennis
-    name: API-Tennis
+  - aid: api-sports:api-american-football
+    name: API-American-Football
     description: >-
-      API-Tennis provides real-time tennis data including match results, rankings,
-      player statistics, and tournament information across ATP, WTA, and ITF circuits.
-    humanURL: https://api-sports.io/
+      API-American-Football provides NFL and NCAA football data including games, live
+      scores, standings, team and player statistics, and season history.
+    humanURL: https://api-sports.io/sports/nfl
+    baseURL: https://v1.american-football.api-sports.io/
     tags:
+      - American Football
+      - NFL
+      - NCAA
+      - Live Scores
       - Sports Data
       - Statistics
-      - Tennis
     properties:
       - type: Documentation
-        url: https://api-sports.io/documentation/tennis/v1
+        url: https://api-sports.io/documentation/nfl/v1
+  - aid: api-sports:api-formula-1
+    name: API-Formula-1
+    description: >-
+      API-Formula-1 provides Formula 1 data including races, circuits, drivers, teams,
+      rankings, pit stops and lap-by-lap results across current and historical seasons.
+    humanURL: https://api-sports.io/sports/formula-1
+    baseURL: https://v1.formula-1.api-sports.io/
+    tags:
+      - Formula 1
+      - Motorsport
+      - Rankings
+      - Sports Data
+      - Statistics
+    properties:
+      - type: Documentation
+        url: https://api-sports.io/documentation/formula-1/v1
+  - aid: api-sports:api-hockey
+    name: API-Hockey
+    description: >-
+      API-Hockey provides ice hockey data including games, live scores, standings and
+      team statistics across the NHL, KHL and more than a hundred other competitions.
+    humanURL: https://api-sports.io/sports/hockey
+    baseURL: https://v1.hockey.api-sports.io/
+    tags:
+      - Ice Hockey
+      - NHL
+      - Live Scores
+      - Standings
+      - Sports Data
+    properties:
+      - type: Documentation
+        url: https://api-sports.io/documentation/hockey/v1
+  - aid: api-sports:api-handball
+    name: API-Handball
+    description: >-
+      API-Handball provides handball data including games, live scores, standings and
+      team statistics across European and international competitions.
+    humanURL: https://api-sports.io/sports/handball
+    baseURL: https://v1.handball.api-sports.io/
+    tags:
+      - Handball
+      - Live Scores
+      - Standings
+      - Sports Data
+    properties:
+      - type: Documentation
+        url: https://api-sports.io/documentation/handball/v1
+  - aid: api-sports:api-rugby
+    name: API-Rugby
+    description: >-
+      API-Rugby provides rugby union and rugby league data including games, live
+      scores, standings and team statistics across international and domestic
+      competitions.
+    humanURL: https://api-sports.io/sports/rugby
+    baseURL: https://v1.rugby.api-sports.io/
+    tags:
+      - Rugby
+      - Live Scores
+      - Standings
+      - Sports Data
+    properties:
+      - type: Documentation
+        url: https://api-sports.io/documentation/rugby/v1
+  - aid: api-sports:api-volleyball
+    name: API-Volleyball
+    description: >-
+      API-Volleyball provides volleyball data including games, live scores, standings
+      and team statistics across national leagues and international championships.
+    humanURL: https://api-sports.io/sports/volleyball
+    baseURL: https://v1.volleyball.api-sports.io/
+    tags:
+      - Volleyball
+      - Live Scores
+      - Standings
+      - Sports Data
+    properties:
+      - type: Documentation
+        url: https://api-sports.io/documentation/volleyball/v1
+  - aid: api-sports:api-mma
+    name: API-MMA
+    description: >-
+      API-MMA provides mixed martial arts data including fights, fighters, events and
+      results. Released out of the API-Sports beta programme alongside API-AFL.
+    humanURL: https://api-sports.io/sports/mma
+    baseURL: https://v1.mma.api-sports.io/
+    tags:
+      - MMA
+      - Combat Sports
+      - Sports Data
+      - Statistics
+    properties:
+      - type: Documentation
+        url: https://api-sports.io/documentation/mma/v1
+  - aid: api-sports:api-afl
+    name: API-AFL
+    description: >-
+      API-AFL provides Australian Football League data including games, live scores,
+      standings and team and player statistics. Released out of the API-Sports beta
+      programme alongside API-MMA.
+    humanURL: https://api-sports.io/sports/afl
+    baseURL: https://v1.afl.api-sports.io/
+    tags:
+      - AFL
+      - Australian Rules Football
+      - Live Scores
+      - Sports Data
+    properties:
+      - type: Documentation
+        url: https://api-sports.io/documentation/afl/v1
 common:
-  - type: DomainSecurity
-    url: security/api-sports-domain-security.yml
-  - type: GitHubOrganization
-    url: https://github.com/api-sports
   - type: Website
     url: https://api-sports.io/
+  - type: DeveloperPortal
+    url: https://dashboard.api-football.com/
   - type: Documentation
-    url: https://api-sports.io/documentation/
+    url: https://www.api-football.com/documentation-v3
+  - type: APIReference
+    url: https://api-sports.io/documentation/football/v3
+  - type: GettingStarted
+    url: https://www.api-football.com/news/post/how-to-get-started-with-api-football-the-complete-beginners-guide
+  - type: Sandbox
+    url: https://www.api-football.com/demo
   - type: Pricing
-    url: https://api-sports.io/#pricing
-  - type: Signup
-    url: https://dashboard.api-sports.io/register
+    url: https://www.api-football.com/pricing
+  - type: SignUp
+    url: https://dashboard.api-football.com/register
   - type: Login
-    url: https://dashboard.api-sports.io/
+    url: https://dashboard.api-football.com/login
+  - type: TermsOfService
+    url: https://api-sports.io/terms
+  - type: PrivacyPolicy
+    url: https://api-sports.io/privacy
+  - type: Blog
+    url: https://www.api-football.com/news/
+  - type: GitHubOrganization
+    url: https://github.com/api-sports
+  - type: Authentication
+    url: authentication/api-sports-authentication.yml
+  - type: ErrorCatalog
+    url: errors/api-sports-problem-types.yml
+  - type: Conventions
+    url: conventions/api-sports-conventions.yml
+  - type: RateLimits
+    url: rate-limits/api-sports-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/api-sports-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/api-sports-changelog.yml
+  - type: Components
+    url: components/api-sports-components.yml
+  - type: Packages
+    url: packages/api-sports-packages.yml
+  - type: Conformance
+    url: conformance/api-sports-conformance.yml
+  - type: LLMsTxt
+    url: llms/api-sports-llms.txt
+  - type: ContentSignal
+    url: well-known/api-sports-robots.txt
+  - type: DomainSecurity
+    url: security/api-sports-domain-security.yml
   - type: Features
     data:
-      - name: 35+ Sports APIs
-        description: Comprehensive coverage spanning football, basketball, baseball, tennis, rugby, ice hockey, volleyball, handball, MMA, and more.
-      - name: Real-Time Live Scores
-        description: Live score updates, fixture statuses, and in-play event data across all supported sports.
-      - name: Historical Data
-        description: Access to historical match results, player statistics, and standings going back multiple seasons.
-      - name: API Key Authentication
-        description: Unified API key authentication model across all sports APIs with rate limiting by plan.
-      - name: Fixtures and Schedules
-        description: Upcoming and past fixtures with dates, venues, teams, and competition information.
-      - name: Player and Team Statistics
-        description: Comprehensive player and team performance statistics including goals, assists, ratings, and more.
-      - name: RapidAPI Integration
-        description: All APIs available through the RapidAPI marketplace for simplified subscription management.
+      - name: Twelve sport APIs
+        description: >-
+          Football, basketball, NBA, baseball, American football (NFL and NCAA),
+          Formula 1, ice hockey, handball, rugby, volleyball, MMA and AFL, each a
+          separately versioned host.
+      - name: Real-time live scores
+        description: Live score updates, fixture statuses and in-play event data across the supported sports.
+      - name: Historical data
+        description: Multi-season historical results, player statistics and standings.
+      - name: One key across every sport
+        description: >-
+          A single x-apisports-key works for every sport API the account subscribes
+          to; there are no scopes or per-service credentials.
+      - name: Embeddable widgets
+        description: >-
+          A first-party widget library renders games and standings for seven sports
+          from data- attributes, with no client code to write.
+      - name: Two rate-limit windows
+        description: >-
+          A per-day quota and a per-minute rate, each signalled by its own response
+          header family; logo and image calls do not count against the daily quota.
+      - name: RapidAPI distribution
+        description: The same APIs are resold through the RapidAPI marketplace under RapidAPI billing and quota.
   - type: UseCases
     data:
-      - name: Sports Betting Platforms
-        description: Integrate live scores, odds data, and historical statistics to power sports betting applications.
-      - name: Fantasy Sports Apps
-        description: Build fantasy sports platforms with real-time player statistics, injury data, and performance metrics.
-      - name: Sports News Portals
-        description: Automate sports content generation with live scores, match results, and team standings.
-      - name: Sports Analytics
-        description: Conduct in-depth sports analysis using historical data, player statistics, and match performance metrics.
-      - name: Mobile Sports Apps
-        description: Build mobile sports companion apps with live scores, notifications, and statistics dashboards.
+      - name: Sports betting platforms
+        description: Integrate live scores, odds data and historical statistics to power betting applications.
+      - name: Fantasy sports apps
+        description: Build fantasy platforms with real-time player statistics, injury data and performance metrics.
+      - name: Sports news portals
+        description: Automate sports content with live scores, match results and team standings.
+      - name: Sports analytics
+        description: Analyse historical data, player statistics and match performance.
+      - name: Mobile sports apps
+        description: Build companion apps with live scores, notifications and statistics dashboards.
+      - name: Embedded scoreboards
+        description: >-
+          Drop live game and standings widgets into an existing site or CMS without
+          writing an integration.
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
+x-enrichment:
+  date: '2026-09-02'
+  status: enriched
+  artifacts_added: 13
+  pass: local-v1

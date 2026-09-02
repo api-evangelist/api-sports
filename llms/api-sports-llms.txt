@@ -1,0 +1,120 @@
+# API-Sports
+
+> API-Sports is a French sports-data provider selling twelve independent read-only
+> REST APIs — one per sport — covering live scores, fixtures, standings, player and
+> team statistics, odds and historical results. One API key works across every sport
+> the account subscribes to. Sold direct and through the RapidAPI marketplace.
+
+generated: 2026-09-02
+method: generated
+source: apis.yml + the probed artifacts in this repository. API-Sports publishes no
+  llms.txt of its own — https://api-sports.io/llms.txt and
+  https://www.api-football.com/llms.txt both return HTTP 404 (probed 2026-09-02).
+
+## What an agent needs to know first
+
+- Every operation is a **GET**. There is no write surface anywhere in the product:
+  nothing to create, charge, send, cancel or undo. Calls are safe and repeatable.
+- **Authentication is a header API key.** Send `x-apisports-key: <key>` to the
+  direct hosts, or `x-rapidapi-key` + `x-rapidapi-host` through RapidAPI. No OAuth,
+  no bearer tokens, no scopes.
+- **Failure usually arrives as HTTP 200.** A recognised key header with a bad key
+  returns status 200 with the problem inside `errors.token` and an empty `response[]`.
+  Only an unrecognised credential header fails at the edge with 403 and error code
+  `4xHe`. Branch on the `errors` field, not on the status code.
+- **The response envelope is fixed** for both success and failure:
+  `{get, parameters, errors, results, paging: {current, total}, response: []}`.
+- **Two rate-limit windows run at once** — a per-day quota
+  (`x-ratelimit-requests-limit` / `x-ratelimit-requests-remaining`) and a per-minute
+  rate (`X-RateLimit-Limit` / `X-RateLimit-Remaining`). Logo and image calls do not
+  count against the daily quota. Quota spent cannot be recovered, so cache.
+- **There is no OpenAPI, no MCP server, no agent card and no SDK.** Integration is
+  raw HTTP, the widget library, or the RapidAPI client.
+- **The documentation is not machine-readable to you.** Every HTML page on
+  api-sports.io and www.api-football.com answers automated clients with a Cloudflare
+  403 challenge, even though robots.txt says `Allow: /` with
+  `Content-Signal: search=yes, ai-input=yes, ai-train=yes`.
+
+## API hosts (all verified live, 2026-09-02)
+
+- Football — https://v3.football.api-sports.io/
+- Basketball — https://v1.basketball.api-sports.io/
+- Baseball — https://v1.baseball.api-sports.io/
+- American Football (NFL & NCAA) — https://v1.american-football.api-sports.io/
+- NBA — https://v2.nba.api-sports.io/
+- Formula 1 — https://v1.formula-1.api-sports.io/
+- Ice Hockey — https://v1.hockey.api-sports.io/
+- Handball — https://v1.handball.api-sports.io/
+- Rugby — https://v1.rugby.api-sports.io/
+- Volleyball — https://v1.volleyball.api-sports.io/
+- MMA — https://v1.mma.api-sports.io/
+- AFL — https://v1.afl.api-sports.io/
+
+Each sport is versioned independently and the major version is a DNS label, so a
+version bump is a new hostname. Tennis exists only as a request-only beta with no
+public host or documentation page.
+
+## Documentation
+
+- API-Football reference: https://www.api-football.com/documentation-v3
+- Per-sport reference: https://api-sports.io/documentation/{sport}/{version}
+  (football/v3, nba/v2, basketball/v1, baseball/v1, nfl/v1, formula-1/v1, hockey/v1,
+  handball/v1, rugby/v1, volleyball/v1, mma/v1, afl/v1, widgets/v3)
+- Coverage by league and season: https://www.api-football.com/coverage
+- Live demo console: https://www.api-football.com/demo
+- Getting started:
+  https://www.api-football.com/news/post/how-to-get-started-with-api-football-the-complete-beginners-guide
+- How the rate limit works: https://www.api-football.com/news/post/how-ratelimit-works
+
+## Account and commercial
+
+- Dashboard / sign in: https://dashboard.api-football.com/
+- Register: https://dashboard.api-football.com/register
+- Pricing: https://www.api-football.com/pricing
+- Terms: https://api-sports.io/terms
+- Privacy: https://api-sports.io/privacy
+- Marketplace listing: https://rapidapi.com/api-sports/api/api-football
+
+## Embeddable widgets
+
+A first-party widget library renders games and standings for seven sports with no
+client code, configured entirely by `data-` attributes:
+https://widgets.api-sports.io/2.0.3/widgets.js — see components/api-sports-components.yml.
+Note that embedding places a live API key in page source; restrict the key by IP or
+domain first.
+
+## Change log
+
+There is no changelog page. Releases, new endpoints and new competitions are dated
+posts in the news blog: https://www.api-football.com/news/ and
+https://www.api-football.com/news/tag/releases. There is no RSS feed and entries carry
+no version numbers or breaking/additive labels.
+
+## Known gaps (measured, not inferred)
+
+- No OpenAPI, AsyncAPI, GraphQL, gRPC or WSDL contract at any probed location.
+- No `/.well-known/` document of any kind on any host.
+- No security.txt, vulnerability-disclosure policy, bug bounty or trust center.
+- No first-party SDK. The GitHub account github.com/api-sports holds twelve
+  repositories and all twelve are forks of community projects; nothing there has been
+  pushed since June 2023.
+- No deprecation or sunset policy, and no SLA.
+- The status page at https://status.api-sports.io/ is configured (CNAME to Better
+  Uptime) but its TLS certificate is not being served, so it is unreachable.
+- The account host the catalog previously carried, dashboard.api-sports.io, no longer
+  resolves.
+
+## Artifacts in this repository
+
+- authentication/api-sports-authentication.yml — probed header names and both failure layers
+- errors/api-sports-problem-types.yml — the response envelope and observed error classes
+- conventions/api-sports-conventions.yml — paging, versioning, caching, reversibility
+- rate-limits/api-sports-rate-limits.yml — the two windows and their headers
+- components/api-sports-components.yml — the 15 widget components and 19 attributes
+- lifecycle/api-sports-lifecycle.yml — versioning, releases, status page, beta programme
+- changelog/api-sports-changelog.yml — the news-blog change surface
+- packages/api-sports-packages.yml — third-party clients only
+- conformance/api-sports-conformance.yml — standards conformance, evidence-backed
+- well-known/api-sports-well-known.yml — the well-known probe record and Content-Signal
+- mcp/api-sports-mcp.yml — verified absence of an MCP server
+- security/api-sports-domain-security.yml — TLS, SPF, DMARC, DNSSEC, CAA

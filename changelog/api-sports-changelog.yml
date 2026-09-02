@@ -1,0 +1,102 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  https://www.api-football.com/sitemap.xml (HTTP 200, 636 URLs, fetched 2026-09-02)
+  and the news taxonomy it enumerates. The post BODIES could not be read — every HTML
+  page on the host answers HTTP 403 from a Cloudflare bot-management challenge — so
+  this file records the change surface and its structure, and names entries by the
+  provider's own post slugs, without paraphrasing content that was not read.
+specification: API Evangelist Change Log
+specificationVersion: '0.1'
+provider: API-Sports
+providerId: api-sports
+description: >-
+  API-Sports has no dedicated changelog page. Product and API changes are published as
+  dated posts in the news blog at https://www.api-football.com/news/, grouped by tag
+  and category. This artifact maps that surface so a consumer can find and follow it.
+scheme: blog-tagged
+dated: true
+feed: null
+feed_note: >-
+  No RSS or Atom feed was discoverable. /news/sitemap.xml returns 404; the news URLs
+  are carried in the site-wide sitemap instead.
+surfaces:
+  releases_tag: https://www.api-football.com/news/tag/releases
+  api_category: https://www.api-football.com/news/category/api
+  endpoints_category: https://www.api-football.com/news/category/endpoints
+  features_category: https://www.api-football.com/news/category/features
+  dashboard_category: https://www.api-football.com/news/category/dashboard
+  widgets_category: https://www.api-football.com/news/category/widgets
+  competitions_category: https://www.api-football.com/news/category/competitions
+  archive_index: https://www.api-football.com/news/archive/2026
+  author: https://www.api-football.com/news/author/api-sports
+volume:
+  posts_in_sitemap: 195
+  archives_present_from: '2019'
+  archives_present_to: '2026'
+  most_recent_archive: https://www.api-football.com/news/archive/2026-03
+change_classes:
+  - class: new-api
+    description: A whole new sport API is released or opened in beta.
+    examples:
+      - two-new-apis-available-mma-and-afl
+      - beta-access-to-api-afl-api-mma-now-open
+      - api-nfl-is-now-available
+      - exciting-news-explore-the-tennis-world-with-our-api-beta-release
+      - api-basketball-new-beta-available
+  - class: api-release
+    description: A new version or release of an existing sport API.
+    examples:
+      - api-football-new-release-available
+      - new-release-of-api-football
+      - api-basketball-new-release-available
+      - api-american-football-new-release
+      - api-formula-1-new-release
+      - api-football-new-release
+      - new-release-available
+  - class: coverage-expansion
+    description: New leagues, competitions or seasons added to an existing API. The highest-volume class by far.
+    examples:
+      - api-basketball-18-new-competitions
+      - api-rugby-40-new-competitions
+      - api-hockey-124-new-competitions
+      - formula-1-2026-season
+  - class: widgets
+    description: Changes to the embeddable widget library.
+    examples:
+      - discover-our-new-widgets
+      - new-widgets-for-all-sports
+      - new-widget-for-fixture-details
+      - introducing-the-api-sports-widget-builder
+  - class: dashboard
+    description: Changes to the account dashboard and key management.
+    examples:
+      - new-dashboard-available
+      - dashboard-update
+      - dashboard-team-management-is-here
+      - allow-only-certain-ipsdomains-to-call-the-apis
+  - class: operational
+    description: Infrastructure and availability notices.
+    examples:
+      - servers-availability
+gaps:
+  - >-
+    Entries are not versioned. A post announcing "a new release of API-Football" does
+    not carry a version number a client can pin to, and the host label (v3) has not
+    changed across several such releases.
+  - >-
+    Breaking versus additive is never declared. Nothing in the taxonomy separates a
+    compatible addition from a change that would break an existing integration.
+  - >-
+    There is no machine-readable feed, so following changes requires scraping a host
+    that returns 403 to automated clients.
+evidence:
+  - url: https://www.api-football.com/sitemap.xml
+    status: 200
+  - url: https://www.api-football.com/news/sitemap.xml
+    status: 404
+  - url: https://www.api-football.com/news/
+    status: 403
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

@@ -1,0 +1,71 @@
+generated: '2026-09-02'
+method: probed
+source: >-
+  DNS and HTTP probes on 2026-09-02, plus the provider's own sitemaps
+  (https://api-sports.io/sitemap.xml, https://www.api-football.com/sitemap.xml) and
+  the 195-post news index those sitemaps enumerate.
+specification: API Evangelist MCP Manifest
+specificationVersion: '0.1'
+provider: API-Sports
+providerId: api-sports
+status: none
+description: >-
+  API-Sports publishes no Model Context Protocol server — neither a hosted remote
+  endpoint nor an installable stdio package. This file is the record of that verified
+  absence. No candidate tool list is derived, because API-Sports also publishes no
+  OpenAPI to derive one from, and inventing tool names for a read API whose route
+  surface cannot be enumerated without a key would be fabrication.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+tools: []
+tool_count: 0
+evidence:
+  - probe: DNS
+    target: mcp.api-sports.io
+    result: NXDOMAIN
+  - probe: DNS
+    target: mcp.api-football.com
+    result: NXDOMAIN
+  - probe: HTTP
+    target: https://api-sports.io/.well-known/ai-plugin.json
+    status: 404
+  - probe: HTTP
+    target: https://www.api-football.com/.well-known/ai-plugin.json
+    status: 404
+  - probe: HTTP
+    target: https://api-sports.io/llms.txt
+    status: 404
+  - probe: sitemap
+    target: https://www.api-football.com/sitemap.xml
+    status: 200
+    result: >-
+      636 URLs, 195 news posts. No post slug, tag or category contains "mcp",
+      "agent", "model-context" or "llm". The provider has never written about an MCP
+      server.
+  - probe: registry
+    target: npm / pypi
+    result: No @api-sports or api-sports MCP server package exists.
+adjacent_finding: >-
+  API-Sports is reachable through the RapidAPI marketplace, and RapidAPI's own hub
+  offers MCP install flows for Claude Code, Claude Desktop, Cursor and VS Code. That
+  is RapidAPI's MCP gateway wrapping many vendors, not an API-Sports server, and it is
+  not recorded as an API-Sports agent surface.
+why_no_candidate_derived: >-
+  The pipeline derives a candidate tool list from OpenAPI operations. There is no
+  OpenAPI here, and unauthenticated route probing is impossible: the edge authenticates
+  before it routes, and echoes any requested path back in the response "get" field —
+  a control probe of /bogusendpoint returned get="bogusendpoint" with the same body as
+  a real endpoint. Any tool list produced from that would be guesses wearing the shape
+  of evidence.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com
+pointer_policy: >-
+  No type: MCPServer pointer is wired into apis.yml for this file. The pointer asserts
+  that the provider ships an MCP server; this file records that it does not. Emitting
+  one here would score a verified absence as a presence.

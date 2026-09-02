@@ -1,0 +1,125 @@
+generated: '2026-09-02'
+method: probed
+source: >-
+  https://widgets.api-sports.io/2.0.3/widgets.js (HTTP 200, 40457 bytes,
+  application/javascript, fetched 2026-09-02) plus the provider's widget
+  documentation at https://api-sports.io/documentation/widgets/v3 and
+  https://api-sports.io/widgets.
+specification: API Evangelist Embedded Components
+specificationVersion: '0.1'
+provider: API-Sports
+providerId: api-sports
+description: >-
+  API-Sports ships a first-party embeddable widget library — drop-in HTML elements
+  that render live games and standings for eight sports directly from a page, driven
+  entirely by data- attributes and an API key. This is a distinct product surface from
+  the REST APIs and from any SDK: no client code is written, the loader calls the API
+  itself. The component and attribute inventory below was read from the provider's own
+  minified bundle on its CDN, not from documentation.
+distribution:
+  registry: cdn
+  cdn: widgets.api-sports.io (BunnyCDN, CNAME widgets-api-sports.b-cdn.net)
+  loader: https://widgets.api-sports.io/2.0.3/widgets.js
+  stylesheet: https://widgets.api-sports.io/2.0.3/widgets.css
+  version: 2.0.3
+  pinned: true
+  note: >-
+    The distribution URL is version-pinned by path segment, so a consumer knows
+    exactly what they are loading. There is no unpinned "latest" alias and no npm
+    package — probing widgets.api-sports.io/widgets.js and /2.0.0/widgets.js both
+    returned 404, so 2.0.3 is the only build addressable at this path shape.
+  builder: https://www.api-football.com/news/post/introducing-the-api-sports-widget-builder
+families:
+  - family: Games
+    description: Live and scheduled game/fixture listings for a league and season.
+    components:
+      - wg-api-football-games
+      - wg-api-basketball-games
+      - wg-api-baseball-games
+      - wg-api-handball-games
+      - wg-api-hockey-games
+      - wg-api-rugby-games
+      - wg-api-volleyball-games
+  - family: Game detail
+    description: A single fixture with its detail view.
+    components:
+      - wg-api-football-game
+  - family: Standings
+    description: League tables for a league and season.
+    components:
+      - wg-api-football-standings
+      - wg-api-basketball-standings
+      - wg-api-baseball-standings
+      - wg-api-handball-standings
+      - wg-api-hockey-standings
+      - wg-api-rugby-standings
+      - wg-api-volleyball-standings
+component_count: 15
+sports_covered:
+  - football
+  - basketball
+  - baseball
+  - handball
+  - hockey
+  - rugby
+  - volleyball
+configuration_attributes:
+  - name: data-key
+    purpose: The API-Sports application key. Read by the loader and sent to the API from the browser.
+  - name: data-host
+    purpose: The API host the widget calls (selects direct vs marketplace routing).
+  - name: data-sport
+    purpose: Sport selector where a widget serves more than one.
+  - name: data-league
+    purpose: League identifier.
+  - name: data-season
+    purpose: Season identifier.
+  - name: data-team
+    purpose: Team identifier.
+  - name: data-date
+    purpose: Date filter for the games listing.
+  - name: data-status
+    purpose: Fixture status filter.
+  - name: data-refresh
+    purpose: Auto-refresh interval for live data.
+  - name: data-theme
+    purpose: Light/dark or custom theme selection.
+  - name: data-show-logos
+    purpose: Toggle team/competition logos.
+  - name: data-show-toolbar
+    purpose: Toggle the widget toolbar.
+  - name: data-show-errors
+    purpose: Surface API errors inside the widget rather than failing silently.
+  - name: data-modal
+    purpose: Enable the detail modal.
+  - name: data-modal-game
+    purpose: Open the game detail view in the modal.
+  - name: data-modal-standings
+    purpose: Open standings in the modal.
+  - name: data-modal-show-logos
+    purpose: Toggle logos inside the modal.
+  - name: data-select
+    purpose: Render the league/season selector control.
+  - name: data-sub
+    purpose: Sub-view selector within a widget.
+attribute_count: 19
+security_note: >-
+  Because the widget runs in the browser, data-key places a live API key in page
+  source. The provider publishes a dedicated note on restricting keys by IP or domain
+  (https://www.api-football.com/news/post/allow-only-certain-ipsdomains-to-call-the-apis)
+  and a widget cache-and-security tutorial
+  (https://www.api-football.com/news/post/how-to-optimize-widgets-cache-and-security-tutorial).
+  Anyone embedding these components should scope the key before shipping.
+sports_without_widgets:
+  sports:
+    - formula-1
+    - mma
+    - afl
+    - nba
+    - american-football
+  note: >-
+    Five of the twelve live sport APIs have no widget in the 2.0.3 bundle, so widget
+    coverage is narrower than API coverage.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

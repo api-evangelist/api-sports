@@ -1,0 +1,114 @@
+generated: '2026-09-02'
+method: probed
+source: >-
+  Live unauthenticated probes of https://v3.football.api-sports.io/ and
+  https://api-football-v1.p.rapidapi.com/v3/status on 2026-09-02. No OpenAPI is
+  published, so no 4xx/5xx response catalog could be derived from a contract; every
+  entry below was observed on the wire.
+specification: API Evangelist Error Catalog
+specificationVersion: '0.1'
+provider: API-Sports
+providerId: api-sports
+description: >-
+  Error semantics for the API-Sports family. API-Sports does NOT use RFC 9457
+  application/problem+json. It uses a single fixed response envelope for both success
+  and failure, and signals most failures inside that envelope with HTTP 200.
+format: proprietary-envelope
+rfc9457: false
+content_type: application/json
+envelope:
+  shape:
+    get: string          # the endpoint name, echoed back verbatim from the request path
+    parameters: array|object   # the query parameters the server accepted
+    errors: object|array # empty array on success; an object of field -> message on failure
+    results: integer     # number of items in response[]
+    paging:
+      current: integer
+      total: integer
+    response: array      # the payload
+  success_signal: errors is an empty array AND results >= 0
+  failure_signal: errors is a non-empty object
+  note: >-
+    The envelope is identical on success and on failure. There is no top-level status,
+    code or type field, no error identifier that is stable across error classes, and
+    no machine-readable severity. A consumer must inspect the TYPE of the errors field
+    (array vs object) to tell the two apart.
+layers:
+  - id: edge
+    name: Cloudflare edge / gateway rejection
+    http_status: 403
+    carries_error_code: true
+    description: >-
+      Returned when no recognised credential header is present. The body is the same
+      envelope but adds an "error" key alongside "token" inside errors.
+  - id: application
+    name: Application-level rejection
+    http_status: 200
+    carries_error_code: false
+    description: >-
+      Returned when a recognised credential header is present but the key, plan,
+      quota or parameters are not acceptable. The HTTP status is 200; the failure
+      exists only in errors.
+problem_types:
+  - id: missing-application-key-edge
+    title: Missing application key (edge)
+    http_status: 403
+    error_code: 4xHe
+    envelope_field: errors.token
+    message: >-
+      Missing application key, Check our documentation on how to add your API key in
+      headers.
+    cause: >-
+      No x-apisports-key or x-rapidapi-key header was sent, or an unrecognised
+      credential header (X-API-Key, Authorization: Bearer) was used.
+    remediation: >-
+      Send the key in x-apisports-key when calling the api-sports.io hosts directly,
+      or in x-rapidapi-key with x-rapidapi-host when calling through RapidAPI.
+    verified: probed
+    observed_at: https://v3.football.api-sports.io/status
+  - id: missing-application-key-app
+    title: Missing or invalid application key (application)
+    http_status: 200
+    error_code: null
+    envelope_field: errors.token
+    message: >-
+      Error/Missing application key. Go to
+      https://www.api-football.com/documentation-v3 to learn how to get your API
+      application key.
+    cause: A recognised key header was sent but the key value is absent, malformed, or not valid.
+    remediation: Obtain a key from the dashboard at https://dashboard.api-football.com/ and retry.
+    agent_hazard: >-
+      HTTP 200. A client that treats 2xx as success will parse an empty response[]
+      and report "no data" rather than "not authenticated".
+    verified: probed
+    observed_at: https://v3.football.api-sports.io/status
+  - id: rapidapi-invalid-key
+    title: Invalid API key (RapidAPI gateway)
+    http_status: 401
+    envelope: rapidapi
+    message: 'Invalid API key. Go to https://docs.rapidapi.com/docs/keys for more info.'
+    cause: The RapidAPI gateway rejected the key before it reached API-Sports.
+    remediation: Subscribe to the API on RapidAPI and use the key from the RapidAPI dashboard.
+    note: >-
+      This is RapidAPI's envelope ({"message": "..."}), not the API-Sports envelope.
+      Consumers on the marketplace channel see a different error shape from consumers
+      on the direct channel for the same underlying condition.
+    verified: probed
+    observed_at: https://api-football-v1.p.rapidapi.com/v3/status
+not_captured:
+  - reason: >-
+      Parameter-validation, quota-exhaustion and plan-restriction errors are described
+      in the provider's per-sport documentation, which returns HTTP 403 from a
+      Cloudflare bot-management challenge to every automated fetch (browser and
+      Googlebot User-Agents alike), and cannot be reproduced on the wire without a
+      subscription key. They are known to use the same errors object with different
+      keys (e.g. errors.requests, errors.plan, errors.<parameter-name>) but the exact
+      strings are not recorded here because they were not observed.
+    evidence:
+      - url: https://www.api-football.com/documentation-v3
+        status: 403
+      - url: https://api-sports.io/documentation/football/v3
+        status: 403
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

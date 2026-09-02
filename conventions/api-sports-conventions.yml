@@ -1,0 +1,141 @@
+generated: '2026-09-02'
+method: probed
+source: >-
+  Live probes of the API-Sports hosts on 2026-09-02 plus the provider's own
+  rate-limit note at https://www.api-football.com/news/post/how-ratelimit-works.
+  Derived from observed behaviour, not from a published contract — API-Sports
+  publishes no OpenAPI.
+specification: API Evangelist API Conventions
+specificationVersion: '0.1'
+provider: API-Sports
+providerId: api-sports
+description: >-
+  Cross-cutting runtime semantics for the API-Sports family of sports-data APIs:
+  how a client authenticates, how the response envelope and paging work, how rate
+  limits are signalled, how versions are addressed, and what is and is not reversible.
+auth:
+  style: api-key-header
+  headers:
+    - x-apisports-key
+    - x-rapidapi-key (with x-rapidapi-host, marketplace channel)
+  detail: authentication/api-sports-authentication.yml
+transport:
+  protocol: https
+  methods: [GET]
+  write_surface: false
+  note: >-
+    Every documented API-Sports endpoint is a read. There is no create, update or
+    delete operation anywhere in the product family — this is a data-retrieval API
+    over sports fixtures, standings, players and statistics.
+versioning:
+  style: host-and-path
+  scheme: >-
+    The major version is carried in the host label AND repeated in the path on the
+    marketplace channel: v3.football.api-sports.io (direct) vs
+    api-football-v1.p.rapidapi.com/v3 (RapidAPI). Each sport is versioned
+    independently — football is v3, NBA is v2, and every other sport is v1.
+  current:
+    football: v3
+    nba: v2
+    basketball: v1
+    baseball: v1
+    american-football: v1
+    formula-1: v1
+    hockey: v1
+    handball: v1
+    rugby: v1
+    volleyball: v1
+    mma: v1
+    afl: v1
+  note: >-
+    Because the version is a DNS label, a version bump is a new hostname. There is no
+    Accept-header or query-parameter version negotiation and no default-latest alias.
+error_envelope:
+  shape_ref: errors/api-sports-problem-types.yml
+  summary: >-
+    A single fixed envelope {get, parameters, errors, results, paging, response} is
+    returned for both success and failure. Failure is signalled by errors becoming a
+    non-empty object, usually WITH HTTP 200. RFC 9457 problem+json is not used.
+pagination:
+  style: page-number
+  response_fields:
+    - paging.current
+    - paging.total
+    - results
+  request_param: page
+  verified: probed
+  evidence: >-
+    Every response observed on the wire — including error responses — carries
+    "paging":{"current":1,"total":1} and a "results" count, so the paging contract is
+    part of the fixed envelope rather than per-endpoint.
+  note: >-
+    paging.total is a PAGE count, not an item count; results is the item count for the
+    current page. There is no cursor, no next/prev link, and no Link header.
+field_expansion:
+  supported: false
+  note: No sparse-fieldset, expand or include parameter is documented.
+request_id_tracing:
+  supported: false
+  note: >-
+    No request-id, trace-id or correlation header was observed on any response from
+    v3.football.api-sports.io. Responses carry only cf-ray (Cloudflare's own edge
+    identifier), which is not a provider-supported support handle.
+  verified: probed
+rate_limit_signalling:
+  detail: rate-limits/api-sports-rate-limits.yml
+  response_headers:
+    - x-ratelimit-requests-limit
+    - x-ratelimit-requests-remaining
+    - X-RateLimit-Limit
+    - X-RateLimit-Remaining
+  windows:
+    daily: x-ratelimit-requests-limit / x-ratelimit-requests-remaining
+    per_minute: X-RateLimit-Limit / X-RateLimit-Remaining
+  note: >-
+    Two independent windows are signalled by two differently-cased header families.
+    No Retry-After and no RateLimit-Policy header is documented.
+idempotency:
+  supported: na
+  reason: >-
+    Read-only API. Every operation is a GET with no side effect, so an idempotency
+    key would have nothing to protect. This is an honest N/A, not a gap.
+dry_run_mode:
+  supported: na
+  reason: Read-only API — there is no action to rehearse.
+reversibility:
+  applicable: false
+  grade: na
+  reason: >-
+    API-Sports exposes no write surface. There is no operation that creates, mutates,
+    charges, sends, cancels or deletes anything, so there is nothing for an agent to
+    take back and no reversal window to document. Every call is a safe, repeatable
+    read.
+  write_surfaces: []
+  caveat: >-
+    The one consequential, non-reversible action in the product is commercial rather
+    than API-level: each call permanently consumes quota from the account's daily
+    allowance, and the provider states that calls to logos and images do NOT count.
+    An agent looping over fixtures cannot un-spend the quota it burns, so quota is the
+    resource to budget, not to reverse.
+caching:
+  provider_guidance: >-
+    The provider publishes tutorials on caching responses and on serving media through
+    a CDN rather than re-requesting it
+    (https://www.api-football.com/news/post/optimizing-sports-websites-bunnycdn-api-sports-image-storage-guide,
+    https://www.api-football.com/news/post/how-to-optimize-api-sports-calls-and-quota-usage).
+  response_headers_observed:
+    cache-control: 'private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0'
+  note: >-
+    The API itself instructs clients not to cache at the HTTP layer, while the
+    provider's guidance is to cache at the application layer to protect quota. The two
+    signals point in opposite directions and an agent obeying cache-control alone will
+    burn quota fast.
+cross_links:
+  authentication: authentication/api-sports-authentication.yml
+  errors: errors/api-sports-problem-types.yml
+  rate_limits: rate-limits/api-sports-rate-limits.yml
+  lifecycle: lifecycle/api-sports-lifecycle.yml
+  components: components/api-sports-components.yml
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

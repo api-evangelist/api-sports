@@ -1,0 +1,124 @@
+generated: '2026-09-02'
+method: probed
+source: >-
+  DNS/TLS probes of every API-Sports host and the provider's own sitemaps
+  (https://api-sports.io/sitemap.xml, https://www.api-football.com/sitemap.xml),
+  2026-09-02.
+specification: API Evangelist Lifecycle
+specificationVersion: '0.1'
+provider: API-Sports
+providerId: api-sports
+description: >-
+  Versioning, release, status and deprecation posture for the API-Sports family.
+versioning:
+  scheme: major-version-in-hostname
+  detail: >-
+    Each sport is a separately versioned API whose major version is a DNS label:
+    v3.football.api-sports.io, v2.nba.api-sports.io, v1.<sport>.api-sports.io. A
+    version bump therefore means a new hostname, and there is no negotiated or
+    default-latest alias.
+  current_versions:
+    football: v3
+    nba: v2
+    basketball: v1
+    baseball: v1
+    american-football: v1
+    formula-1: v1
+    hockey: v1
+    handball: v1
+    rugby: v1
+    volleyball: v1
+    mma: v1
+    afl: v1
+    widgets: v3 (documentation/widgets/v3)
+  verified: probed
+  evidence: >-
+    All twelve sport hosts answered on 2026-09-02 with the API's own JSON envelope.
+    Older or alternate labels do not resolve: v1.nba.api-sports.io,
+    v3.tennis.api-sports.io, v1.tennis.api-sports.io, v1.cricket.api-sports.io and
+    v1.golf.api-sports.io are all NXDOMAIN.
+release_channel:
+  present: true
+  type: news-blog
+  url: https://www.api-football.com/news/
+  releases_tag: https://www.api-football.com/news/tag/releases
+  categories:
+    - https://www.api-football.com/news/category/api
+    - https://www.api-football.com/news/category/endpoints
+    - https://www.api-football.com/news/category/features
+    - https://www.api-football.com/news/category/dashboard
+    - https://www.api-football.com/news/category/widgets
+  detail: changelog/api-sports-changelog.yml
+  note: >-
+    There is no dedicated /changelog page. Releases, new endpoints, new competitions
+    and beta openings are announced as dated posts in the news blog and grouped by the
+    "releases" tag.
+deprecation_policy:
+  published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation or sunset policy was found on either public host, and no
+    Deprecation or Sunset response header was observed. The only deprecation signal
+    available to a consumer is that a retired version's hostname stops resolving,
+    which gives no notice period. No Deprecation pointer is emitted for this provider.
+  evidence:
+    - url: https://api-sports.io/sitemap.xml
+      status: 200
+      finding: No deprecation, sunset, versioning-policy or lifecycle page is listed.
+status_page:
+  configured: true
+  serving: false
+  url: https://status.api-sports.io/
+  vendor: Better Stack (Better Uptime)
+  dns: status.api-sports.io CNAME statuspage.betteruptime.com -> 167.235.220.62
+  http_status: null
+  error: 'TLS handshake failure: tlsv1 alert internal error'
+  finding: >-
+    API-Sports has provisioned a Better Uptime status page and pointed
+    status.api-sports.io at it, but the TLS certificate for the custom domain is not
+    being served — every HTTPS connection is aborted by the vendor during the
+    handshake, from two independent clients on 2026-09-02. Plain HTTP 308-redirects to
+    the HTTPS URL that then fails, so the page is unreachable by any means. This is a
+    broken deployment, not an absent one; it is a small fix on the provider's side.
+    No StatusPage pointer is emitted while it does not serve, because a pointer to an
+    unreachable page is a claim we would be making on the provider's behalf.
+  evidence:
+    - url: https://status.api-sports.io/
+      status: null
+      error: TLSV1_ALERT_INTERNAL_ERROR
+    - url: http://status.api-sports.io/
+      status: 308
+sla:
+  published: false
+  note: >-
+    No SLA or uptime commitment page was found in either sitemap. The provider does
+    publish an operational note on server availability
+    (https://www.api-football.com/news/post/servers-availability) but that is a blog
+    post, not a commitment.
+beta_program:
+  present: true
+  url: https://www.api-football.com/news/post/api-beta-program
+  docs: https://www.api-football.com/documentation-beta
+  detail: >-
+    API-Sports runs a formal beta programme; AFL, MMA and Tennis were each opened
+    through it. Beta access is granted on request through the dashboard chat rather
+    than self-serve.
+retired_or_unreleased:
+  - name: Tennis
+    state: beta-by-request
+    evidence: >-
+      Announced at
+      https://www.api-football.com/news/post/exciting-news-explore-the-tennis-world-with-our-api-beta-release
+      but absent from https://api-sports.io/sitemap.xml, and neither
+      v1.tennis.api-sports.io nor v3.tennis.api-sports.io resolves. There is no public
+      tennis documentation page and no callable tennis host.
+  - name: dashboard.api-sports.io
+    state: decommissioned
+    evidence: >-
+      NXDOMAIN as of 2026-09-02. This host was the account/signup destination the
+      catalog carried; the live dashboard is https://dashboard.api-football.com/.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

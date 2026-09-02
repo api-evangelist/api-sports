@@ -1,0 +1,112 @@
+generated: '2026-09-02'
+method: probed
+source: >-
+  Live unauthenticated header probes against https://v3.football.api-sports.io/status
+  on 2026-09-02, cross-read against https://www.api-football.com/documentation-v3
+  (the URL the API's own error body names).
+specification: API Evangelist Authentication Profile
+specificationVersion: '0.1'
+provider: API-Sports
+providerId: api-sports
+description: >-
+  Authentication profile for the API-Sports family of sports-data APIs. API-Sports
+  publishes no OpenAPI, so this profile was established by probing the live edge with
+  candidate header names and recording which ones the gateway recognises. Two header
+  names are accepted, corresponding to the provider's two distribution channels
+  (direct subscription and the RapidAPI marketplace); every other credential shape is
+  rejected at the edge before routing.
+model: api-key
+oauth2: false
+openid_connect: false
+mutual_tls: false
+schemes:
+  - id: apisports-key
+    type: apiKey
+    in: header
+    name: x-apisports-key
+    channel: direct
+    description: >-
+      API key issued from the API-Sports dashboard (dashboard.api-football.com) and
+      used when calling the sport hosts directly, e.g. v3.football.api-sports.io.
+      One key works across every sport API the account is subscribed to.
+    verified: probed
+    evidence:
+      url: https://v3.football.api-sports.io/status
+      request_header: 'x-apisports-key: <placeholder>'
+      http_status: 200
+      body_excerpt: >-
+        {"get":"status","parameters":[],"errors":{"token":"Error/Missing application
+        key. Go to https://www.api-football.com/documentation-v3 to learn how to get
+        your API application key."},"results":0,...}
+      reading: >-
+        The header name is recognised — the request passes the edge (HTTP 200) and is
+        rejected by the application's own token check, which names the documentation
+        page.
+  - id: rapidapi-key
+    type: apiKey
+    in: header
+    name: x-rapidapi-key
+    channel: marketplace
+    description: >-
+      RapidAPI marketplace key, used with the companion x-rapidapi-host header when
+      calling through api-football-v1.p.rapidapi.com and the sibling RapidAPI hosts.
+      Billing and quota are managed by RapidAPI rather than by API-Sports.
+    companion_header: x-rapidapi-host
+    verified: probed
+    evidence:
+      url: https://v3.football.api-sports.io/status
+      request_header: 'x-rapidapi-key: <placeholder>'
+      http_status: 200
+      reading: >-
+        Also recognised at the direct host — the edge accepts either key header name
+        and defers to the application token check.
+  - id: rapidapi-gateway
+    type: apiKey
+    in: header
+    name: x-rapidapi-key
+    channel: marketplace
+    host: api-football-v1.p.rapidapi.com
+    verified: probed
+    evidence:
+      url: https://api-football-v1.p.rapidapi.com/v3/status
+      http_status: 401
+      body: '{"message":"Invalid API key. Go to https://docs.rapidapi.com/docs/keys for more info."}'
+      reading: >-
+        The marketplace gateway returns a conventional HTTP 401 with its own error
+        envelope — a different failure shape from the direct hosts.
+rejected_schemes:
+  - name: X-API-Key
+    http_status: 403
+    note: Not recognised. Edge returns the 4xHe token error before routing.
+  - name: 'Authorization: Bearer'
+    http_status: 403
+    note: >-
+      Not recognised. API-Sports has no bearer-token, OAuth 2.0 or OpenID Connect
+      surface; /.well-known/openid-configuration and
+      /.well-known/oauth-authorization-server both 404 on api-sports.io.
+findings:
+  - id: two-layer-auth-failure
+    summary: >-
+      Authentication failure has two distinct shapes and an agent must handle both.
+      An unknown or absent credential header fails at the Cloudflare edge with HTTP
+      403 and error code "4xHe"; a recognised header carrying a bad key fails at the
+      application with HTTP 200 and the failure described only inside
+      errors.token. A client that branches on HTTP status alone will read the second
+      case as success.
+  - id: auth-precedes-routing
+    summary: >-
+      The edge checks credentials before it resolves the route. A request to a
+      nonexistent path with a recognised key header returns the same 200 + token
+      error as a real path, and the response echoes the requested path back in the
+      "get" field verbatim. Unauthenticated route discovery is therefore impossible,
+      and the "get" echo must not be read as confirmation that an endpoint exists.
+      (Control probe: /bogusendpoint returned get="bogusendpoint".)
+  - id: no-scopes
+    summary: >-
+      There is no scope, permission or role surface. Access is all-or-nothing per key
+      and is bounded by the subscription plan, not by grants — so no scopes/ artifact
+      is applicable to this provider.
+docs: https://www.api-football.com/documentation-v3
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

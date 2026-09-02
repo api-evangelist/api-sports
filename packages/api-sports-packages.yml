@@ -1,0 +1,135 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  registry.npmjs.org, pypi.org, rubygems.org, api.nuget.org, repo.packagist.org and
+  the GitHub account https://github.com/api-sports, all queried 2026-09-02.
+specification: API Evangelist Packages
+specificationVersion: '0.1'
+provider: API-Sports
+providerId: api-sports
+description: >-
+  Client-library inventory for API-Sports. The headline finding is that API-Sports
+  publishes NO first-party SDK in any language or registry. Its GitHub account exists
+  and is clearly the company's, but all twelve repositories on it are FORKS of
+  community projects — the account is used to bookmark other people's wrappers, not to
+  ship code. Everything below is therefore third-party, and every entry is
+  official: false.
+official_sdk_count: 0
+package_count: 3
+first_party: false
+github:
+  account: https://github.com/api-sports
+  account_type: user
+  bio: >-
+    "API-SPORTS Sports API supplier. Football, Basketball, Baseball, Handball, Hockey,
+    Formula-1, NFL, Rugby, Volleyball."
+  public_repos: 12
+  original_repos: 0
+  forked_repos: 12
+  most_recent_push: '2023-06-17'
+  finding: >-
+    Every repository is fork=true. The account has never pushed original code, and
+    nothing on it has been touched since June 2023. A consumer arriving from the
+    catalog's GitHubOrganization pointer finds twelve forks of other developers'
+    wrappers rather than a supported client.
+  repositories:
+    - name: api-sports
+      fork: true
+      description: .Net SDK(s) for api-sports.io
+      last_push: '2021-08-02'
+    - name: api_sports
+      fork: true
+      description: Ruby library for the https://api-sports.io/ API
+      last_push: '2023-03-28'
+    - name: Javascript-wrapper-for-API-FOOTBALL
+      fork: true
+      last_push: '2021-03-31'
+    - name: football-API-client
+      fork: true
+      last_push: '2023-06-08'
+    - name: footballAPI
+      fork: true
+      last_push: '2022-05-19'
+    - name: football_api
+      fork: true
+      last_push: '2020-10-10'
+    - name: livescore-service
+      fork: true
+      last_push: '2023-03-20'
+    - name: league-of-ireland-matchbot
+      fork: true
+      last_push: '2023-03-21'
+    - name: Football_Prediction_Project
+      fork: true
+      last_push: '2022-09-14'
+    - name: euro2020-clone
+      fork: true
+      last_push: '2022-06-03'
+    - name: football-app
+      fork: true
+      last_push: '2020-05-22'
+    - name: api-sports-1
+      fork: true
+      last_push: '2023-06-17'
+packages:
+  - name: api-sports
+    registry: npm
+    url: https://www.npmjs.com/package/api-sports
+    language: javascript
+    official: false
+    version: 1.0.9
+    published: '2026-03-07'
+    repository: https://github.com/seunafara/api-sports
+    description: An easy-to-use Node.js wrapper for the API Sports service.
+    note: >-
+      Third-party, by an individual maintainer. The most recently released client for
+      this API in any registry, and the only one published in 2026.
+  - name: api-football
+    registry: npm
+    url: https://www.npmjs.com/package/api-football
+    language: javascript
+    official: false
+    version: 1.0.1
+    published: '2020-03-04'
+    repository: https://github.com/yuledev/api-football
+    description: API-FOOTBALL API wrapper
+    note: >-
+      Third-party and abandoned. Last released March 2020 — before API-Football v3 —
+      so it wraps a version of the API whose hostname no longer exists.
+  - name: api-sports
+    registry: rubygems
+    url: https://rubygems.org/gems/api-sports
+    language: ruby
+    official: false
+    version: 0.1.0
+    published: '2023-03-27'
+    repository: https://github.com/irishbryan/api-sports
+    description: Ruby bindings for the api-sports.io API (Unofficial)
+    note: >-
+      The gem's own summary says "(Unofficial)". Single 0.1.0 release, untouched since
+      March 2023.
+registries_checked:
+  - registry: npm
+    result: 2 third-party packages; no @api-sports scope exists.
+  - registry: pypi
+    result: 'No package. api-sports, api-football, apifootball, python-api-football all 404.'
+  - registry: rubygems
+    result: 1 third-party gem, self-declared unofficial.
+  - registry: nuget
+    result: >-
+      No API-Sports package. The forked ".Net SDK(s)" repo on the GitHub account was
+      never published to NuGet.
+  - registry: packagist
+    result: 'No package (api-sports/api-sports 404).'
+  - registry: maven-central
+    result: Not applicable; no JVM client is referenced anywhere in the provider's surface.
+  - registry: crates.io
+    result: Not applicable; no Rust client is referenced anywhere in the provider's surface.
+consumer_impact: >-
+  Because there is no first-party SDK, the only provider-supported integration paths
+  are raw HTTP, the embeddable widget library (see components/) and the RapidAPI
+  marketplace client. An abandonment check against the SDKs is meaningless here — the
+  correct reading is not "the SDK is stale" but "there is no SDK to be stale".
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

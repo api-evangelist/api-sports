@@ -1,0 +1,142 @@
+generated: '2026-09-02'
+method: probed
+source: live HTTPS probes of every API-Sports host on 2026-09-02
+specification: API Evangelist Well-Known Index
+specificationVersion: '0.1'
+provider: API-Sports
+providerId: api-sports
+description: >-
+  Probe record of the IETF/industry well-known document paths on every API-Sports
+  host. Every /.well-known/ path 404s or is refused by the API edge, so NO WellKnown
+  or SecurityTxt pointer is emitted for this provider — this file records a verified
+  absence, not a presence. The one machine-readable consent document API-Sports does
+  publish is a Cloudflare Content Signals Policy line inside robots.txt on both
+  public web hosts, saved verbatim alongside this index.
+hosts:
+  - host: api-sports.io
+    note: Marketing + per-sport documentation host. Returns an openresty 404 page for every well-known path.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+      - path: /llms.txt
+        status: 404
+        file: null
+      - path: /robots.txt
+        status: 200
+        file: api-sports-robots.txt
+  - host: www.api-football.com
+    note: Football product site, pricing, demo console and the news/changelog surface.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+      - path: /llms.txt
+        status: 404
+        file: null
+      - path: /robots.txt
+        status: 200
+        file: api-sports-api-football-robots.txt
+  - host: v3.football.api-sports.io
+    note: >-
+      Live API host. The Cloudflare edge answers every path — including /.well-known/*
+      — with HTTP 403 and the API's own JSON token error (error code 4xHe) before any
+      routing happens, so no well-known document can be served or discovered here.
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 403
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+        file: null
+      - path: /.well-known/api-catalog
+        status: 403
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 403
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 403
+        file: null
+      - path: /.well-known/agent.json
+        status: 403
+        file: null
+      - path: /llms.txt
+        status: 403
+        file: null
+  - host: dashboard.api-sports.io
+    note: >-
+      Host does not resolve (NXDOMAIN as of 2026-09-02). This is the host the catalog
+      previously carried as the API-Sports SignUp and Login destination; the live
+      dashboard is dashboard.api-football.com.
+    documents:
+      - path: /.well-known/security.txt
+        status: null
+        file: null
+        error: NXDOMAIN
+content_signal:
+  present: true
+  hosts:
+    - host: api-sports.io
+      file: api-sports-robots.txt
+      directive: 'Content-Signal: search=yes, ai-input=yes, ai-train=yes'
+      status: 200
+    - host: www.api-football.com
+      file: api-sports-api-football-robots.txt
+      directive: 'Content-Signal: search=yes, ai-input=yes, ai-train=yes'
+      status: 200
+  interpretation: >-
+    Both public web hosts publish a Cloudflare Content Signals Policy that explicitly
+    permits search indexing, AI input (RAG / grounding at inference time) and AI
+    training. robots.txt itself is Allow: / for User-agent: *. This is an opt-IN
+    consent declaration and is the provider's only machine-readable agent-consent
+    document.
+  contradiction: >-
+    The stated policy and the deployed edge disagree. robots.txt allows every agent,
+    but every HTML page on api-sports.io and www.api-football.com answers our crawler
+    with HTTP 403 from a Cloudflare bot-management challenge regardless of
+    User-Agent (browser, Googlebot). Static files under the same hosts (robots.txt,
+    sitemap.xml) return 200. An agent that honours the published policy still cannot
+    read the documentation, pricing or terms pages that policy invites it to read.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

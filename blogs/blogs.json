@@ -1,0 +1,11 @@
+{
+  "repo": "api-sports",
+  "feeds": [
+    {
+      "source": "https://api-sports.io/privacy",
+      "error": "HTTPError"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-09-06T19:17:18Z"
+}

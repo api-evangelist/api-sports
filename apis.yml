@@ -272,6 +272,10 @@ apis:
       - type: Documentation
         url: https://api-sports.io/documentation/afl/v1
 common:
+  - type: Plans
+    url: plans/api-sports-plans-pricing.yml
+  - type: FinOps
+    url: finops/api-sports-finops.yml
   - type: Website
     url: https://api-sports.io/
   - type: DeveloperPortal

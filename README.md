@@ -1,4 +1,4 @@
-# API-Sports (api-sports)
+# API-Sports
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,107 +64,122 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-API-Sports is a leading provider of real-time sports data and statistics APIs for businesses and developers. They offer 35+ APIs covering football, basketball, baseball, tennis, rugby, volleyball, handball, ice hockey, MMA, and more, with live scores, fixtures, standings, player statistics, and historical data accessible via a unified API key authentication model.
+API-Sports is a sports-data provider selling twelve independent read-only REST APIs — one per sport — covering football, basketball, baseball, American football (NFL and NCAA), NBA, Formula 1, ice hockey, handball, rugby, volleyball, MMA and Australian rules football. Each API returns live scores, fixtures and schedules, standings, team and player statistics, lineups, injuries, transfers, odds and multi-season historical results, and each is versioned independently with its major version carried in the hostname. A single API key works across every sport an account subscribes to, authenticated with an x-apisports-key header, and the same APIs are resold through the RapidAPI marketplace. API-Sports also ships a first-party embeddable widget library that renders games and standings with no client code.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/api-sports/refs/heads/main/apis.yml)
+**Areas:** Sports Data · Live Scores · Statistics · Football · Basketball · Baseball · American Football · Ice Hockey · Formula 1 · Rugby · Volleyball · Handball
 
-**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
+## API-Sports on APIs.io
 
-## Tags:
+Everything profiled for API-Sports is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/api-sports/](https://apis.io/providers/api-sports/)** — or go straight to one of the APIs or properties below.
 
- - Baseball, Basketball, Cricket, Football, Ice Hockey, MMA, Real-Time, Rugby, Sports Data, Statistics, Tennis
+### APIs (12)
 
-## Timestamps
+- [API-Football](https://apis.io/apis/api-sports/api-football/) — API-Football provides real-time and historical football (soccer) data including fixtures, live scores, standings, player and team statistics, lineups,…
+- [API-Basketball](https://apis.io/apis/api-sports/api-basketball/) — API-Basketball provides real-time and historical basketball data including games, standings, team and player statistics and season coverage across hundreds…
+- [API-NBA](https://apis.io/apis/api-sports/api-nba/) — API-NBA provides NBA-specific data including games, live scores, standings, team and player statistics and season history. It is the only sport API in the…
+- [API-Baseball](https://apis.io/apis/api-sports/api-baseball/) — API-Baseball provides real-time and historical baseball data including games, standings, team and player statistics across MLB, NPB, KBO and other…
+- [API-American-Football](https://apis.io/apis/api-sports/api-american-football/) — API-American-Football provides NFL and NCAA football data including games, live scores, standings, team and player statistics, and season history.
+- [API-Formula-1](https://apis.io/apis/api-sports/api-formula-1/) — API-Formula-1 provides Formula 1 data including races, circuits, drivers, teams, rankings, pit stops and lap-by-lap results across current and historical…
+- [API-Hockey](https://apis.io/apis/api-sports/api-hockey/) — API-Hockey provides ice hockey data including games, live scores, standings and team statistics across the NHL, KHL and more than a hundred other competitions.
+- [API-Handball](https://apis.io/apis/api-sports/api-handball/) — API-Handball provides handball data including games, live scores, standings and team statistics across European and international competitions.
+- [API-Rugby](https://apis.io/apis/api-sports/api-rugby/) — API-Rugby provides rugby union and rugby league data including games, live scores, standings and team statistics across international and domestic competitions.
+- [API-Volleyball](https://apis.io/apis/api-sports/api-volleyball/) — API-Volleyball provides volleyball data including games, live scores, standings and team statistics across national leagues and international championships.
+- [API-MMA](https://apis.io/apis/api-sports/api-mma/) — API-MMA provides mixed martial arts data including fights, fighters, events and results. Released out of the API-Sports beta programme alongside API-AFL.
+- [API-AFL](https://apis.io/apis/api-sports/api-afl/) — API-AFL provides Australian Football League data including games, live scores, standings and team and player statistics. Released out of the API-Sports beta…
 
-- **Created:** 2025-03-01
-- **Modified:** 2026-04-19
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### API-Football
-API-Football provides real-time and historical football (soccer) data including fixtures, live scores, standings, player statistics, team information, injuries, transfers, and predictions across 900+ leagues and cups worldwide.
+#### Security (2)
 
-**Human URL:** [https://api-sports.io/](https://api-sports.io/)
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Tags:
+- [Api Sports Authentication](https://apis.io/security/api-sports/api-sports-authentication/)
+- [Api Sports Domain Security](https://apis.io/security/api-sports/api-sports-domain-security/)
 
- - Football, Live Scores, Soccer, Sports Data, Statistics
+#### Plans and pricing (1)
 
-#### Properties
+Published plans, tiers and prices.
 
-- [Documentation](https://api-sports.io/documentation/football/v3)
+- [Api Sports Plans Pricing](https://apis.io/plans/api-sports/api-sports-plans-pricing/)
 
-### API-Basketball
-API-Basketball provides real-time and historical basketball data including games, standings, player statistics, team information, and injuries across NBA, EuroLeague, and 400+ leagues worldwide.
+#### Rate limits (1)
 
-**Human URL:** [https://api-sports.io/](https://api-sports.io/)
+Published request limits.
 
-#### Tags:
+- [Api Sports Rate Limits](https://apis.io/rate-limits/api-sports/api-sports-rate-limits/)
 
- - Basketball, NBA, Sports Data, Statistics
+#### FinOps (1)
 
-#### Properties
+What the API costs to run, by operation.
 
-- [Documentation](https://api-sports.io/documentation/basketball/v1)
+- [Api Sports Finops](https://apis.io/finops/api-sports/api-sports-finops/)
 
-### API-Baseball
-API-Baseball provides real-time and historical baseball data including games, standings, player statistics, and team information across MLB and international leagues.
+## Where to find this API
 
-**Human URL:** [https://api-sports.io/](https://api-sports.io/)
-
-#### Tags:
-
- - Baseball, MLB, Sports Data, Statistics
-
-#### Properties
-
-- [Documentation](https://api-sports.io/documentation/baseball/v1)
-
-### API-Tennis
-API-Tennis provides real-time tennis data including match results, rankings, player statistics, and tournament information across ATP, WTA, and ITF circuits.
-
-**Human URL:** [https://api-sports.io/](https://api-sports.io/)
-
-#### Tags:
-
- - Sports Data, Statistics, Tennis
-
-#### Properties
-
-- [Documentation](https://api-sports.io/documentation/tennis/v1)
-
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://api-sports.io/)
-- [Documentation](https://api-sports.io/documentation/)
-- [Pricing](https://api-sports.io/#pricing)
-- [SignUp](https://dashboard.api-sports.io/register)
-- [Login](https://dashboard.api-sports.io/)
+- [Documentation](https://www.api-football.com/documentation-v3)
+- [Getting started](https://www.api-football.com/news/post/how-to-get-started-with-api-football-the-complete-beginners-guide)
+- [API reference](https://api-sports.io/documentation/football/v3)
+- [Pricing](https://www.api-football.com/pricing)
+- [Sign up](https://dashboard.api-football.com/register)
+- [Blog](https://www.api-football.com/news/)
+- [Terms of service](https://api-sports.io/terms)
+- [Privacy policy](https://api-sports.io/privacy)
+- [GitHub](https://github.com/api-sports)
 
-## Features
+## API Evangelist rating
 
-| Name | Description |
-|------|-------------|
-| 35+ Sports APIs | Comprehensive coverage spanning football, basketball, baseball, tennis, rugby, ice hockey, volleyball, handball, MMA, and more. |
-| Real-Time Live Scores | Live score updates, fixture statuses, and in-play event data across all supported sports. |
-| Historical Data | Access to historical match results, player statistics, and standings going back multiple seasons. |
-| API Key Authentication | Unified API key authentication model across all sports APIs with rate limiting by plan. |
-| Fixtures and Schedules | Upcoming and past fixtures with dates, venues, teams, and competition information. |
-| Player and Team Statistics | Comprehensive player and team performance statistics including goals, assists, ratings, and more. |
-| RapidAPI Integration | All APIs available through the RapidAPI marketplace for simplified subscription management. |
+**Kin Score 36.8** — thin · rubric 0.24.0 · scored 2026-10-17
 
-## Use Cases
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 0.0 |
+| Contract governance | 0.0 |
+| Operational transparency | 39.5 |
+| Developer ergonomics | 59.5 |
+| Access clarity | 52.6 |
 
-| Name | Description |
-|------|-------------|
-| Sports Betting Platforms | Integrate live scores, odds data, and historical statistics to power sports betting applications. |
-| Fantasy Sports Apps | Build fantasy sports platforms with real-time player statistics, injury data, and performance metrics. |
-| Sports News Portals | Automate sports content generation with live scores, match results, and team standings. |
-| Sports Analytics | Conduct in-depth sports analysis using historical data, player statistics, and match performance metrics. |
-| Mobile Sports Apps | Build mobile sports companion apps with live scores, notifications, and statistics dashboards. |
+**Agent readiness 10.1** — agent-aware
 
-## Maintainers
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | yes |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
 
-**FN:** Kin Lane
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
 
-**Email:** info@apievangelist.com
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/api-sports/](https://apis.io/providers/api-sports/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for API-Sports: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/api-sports/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
